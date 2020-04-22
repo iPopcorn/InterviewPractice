@@ -51,60 +51,43 @@ class TreeHandler:
                             visitedFlag = True
                         except IndexError:
                             break
-        # nodes = []
-        # # prevNode = None
-        # curNode = self.root
-        # visitedFlag = False
-        # while curNode:
-        #     # print('curNode: ' + str(walker['curNode']))
-        #     index = len(nodes) - 1
-        #     if index > -1:
-        #         nodeDict = nodes[index]
-        #         if nodeDict['count'] > 1:
-        #             tempNode = nodes.pop(index)['node']
-        #             if tempNode == curNode:  # move back up one
-        #                 index = len(nodes) - 1
-        #
-        #                 if index < 0:
-        #                     break
-        #
-        #                 nodeDict = nodes[index]
-        #                 curNode = nodeDict['node']
-        #                 # nodeDict['count'] += 1
-        #
-        #         elif nodeDict['node'] == curNode:
-        #             self.values.append(curNode)
-        #             nodeDict['count'] += 1
-        #
-        #             if curNode.right:
-        #                 curNode = curNode.right
-        #
-        #             else:
-        #                 continue
-        #     if curNode.left:
-        #         # prevNode = curNode
-        #         nodes.append({
-        #             'node': curNode,
-        #             'count': 1
-        #         })
-        #         curNode = curNode.left
-        #     else:
-        #         self.values.append(curNode.value)
-        #         if curNode.right:
-        #             nodes.append({
-        #                 'node': curNode,
-        #                 'count': 1
-        #             })
-        #             curNode = curNode.right
-        #         else:
-        #             if len(nodes):
-        #
-        #                 nodeDict = nodes[index]
-        #                 curNode = nodeDict['node']
-        #                 nodeDict['count'] += 1
-        #                 nodes[index] = nodeDict
-        #             else:
-        #                 break
+
+    def traverseDescendingIterative(self):
+        nodes = []
+        curNode = self.root
+        visitedFlag = False
+
+        while curNode:
+            if visitedFlag:
+                self.values.append(curNode.value)
+
+                if curNode.left:
+                    curNode = curNode.left
+                    visitedFlag = False
+
+                else:
+                    try:
+                        curNode = nodes.pop()
+
+                    except IndexError:
+                        break
+            else:
+                if curNode.right:
+                    nodes.append(curNode)
+                    curNode = curNode.right
+                else:
+                    self.values.append(curNode.value)
+
+                    if curNode.left:
+                        curNode = curNode.left
+
+                    else:
+                        try:
+                            curNode = nodes.pop()
+                            visitedFlag = True
+
+                        except IndexError:
+                            break
 
 
 class BinarySearchTree:
